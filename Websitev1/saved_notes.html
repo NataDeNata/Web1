@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Note Taking Website</title>
+            <link rel="stylesheet" href="styles.css">
+
+            <style>
+           .saved_note {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin: 10px 0;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+}
+
+.saved_note button {
+    margin-top: 5px;
+    padding: 5px 10px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.saved_note button:hover {
+    background-color: darkred;
+}
+
+            </style>
+        </head>
+        <body>
+            <div class="bgImage">
+                <img src="webBg.jpg">
+            </div>
+            <header>
+                <nav>
+                    <ul>
+                        <li><a href="Website1.html">Home</a></li>
+                        <li><a style="margin-left: 5ch;" href="saved_notes.html">Notes</a></li>
+                        <li><a style="margin-left: 5ch;" href="About.html">About</a></li>
+                        <li><a style="margin-left: 5ch;" href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+            </header>
+            <div class="body_content">
+                <main>
+                    <section id="home">
+                        <h1>Your Saved Notes</h1>
+                        <div id="savedNotesContainer"></div>
+                    </section>
+                    
+                    <script src="script_Notes.js"></script>
+                </main>
+            </div>
+            <footer>
+                <p>&copy; My Note Taking Website</p>
+            </footer>
+        </body>
+</html>
