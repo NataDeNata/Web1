@@ -5,30 +5,41 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Note Taking Website</title>
             <link rel="stylesheet" href="styles.css">
+            <style> /*style of saved notes*/
+            .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            }
 
-            <style>
-           .saved_note {
-    border: 1px solid #ddd;
-    padding: 15px;
-    margin: 10px 0;
-    background-color: #f1f1f1;
-    border-radius: 5px;
-}
+                .grid-item {
+                background-color: #fff;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                }
+                .title-input {
+                width: 100%;
+                padding: 10px;
+                font-size: 24px;
+                font-weight: bold;
+                border: none;
+                text-overflow: ellipsis;
+            }
+            
+            .note-textarea {
+                width: 100%;
+                height: 200px;
+                font-size: 20px;
+                border: none;
+                border-bottom-left-radius: 20px;
+                border-bottom-right-radius: 20px;
+                box-shadow: 0 20px 15px rgba(211, 44, 197, 0.829); /* adds glow effect on notes */
+            }
 
-.saved_note button {
-    margin-top: 5px;
-    padding: 5px 10px;
-    background-color: red;
-    color: white;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-}
 
-.saved_note button:hover {
-    background-color: darkred;
-}
 
+        
             </style>
         </head>
         <body>
@@ -39,9 +50,9 @@
                 <nav>
                     <ul>
                         <li><a href="Website1.html">Home</a></li>
-                        <li><a style="margin-left: 5ch;" href="saved_notes.html">Notes</a></li>
+                        <li><a style="margin-left: 5ch; background-color: #D0F6FF; color: #363055;" href="saved_notes.html">Notes</a></li>
                         <li><a style="margin-left: 5ch;" href="About.html">About</a></li>
-                        <li><a style="margin-left: 5ch;" href="#contact">Contact</a></li>
+                        <li><a style="margin-left: 5ch;" href="Contact.html">Contact</a></li>
                     </ul>
                 </nav>
             </header>
@@ -49,11 +60,88 @@
                 <main>
                     <section id="home">
                         <h1>Your Saved Notes</h1>
-                        <div id="savedNotesContainer"></div>
+                        <div class="note-containers">
+                            <ul id="saved-notes-list"></ul>
+                          </div>
                     </section>
-                    
-                    <script src="script_Notes.js"></script>
-                </main>
+
+            <script>
+            //get the saved notes from local storage
+            const notes = JSON.parse(localStorage.getItem('notes')) || [];
+
+            //display the saved notes
+            const savedNotesList = document.getElementById('saved-notes-list');
+            notes.forEach((note, index) => {
+            const noteContainer = document.createElement('div');
+            noteContainer.className = 'note-container grid-item';
+            noteContainer.style.backgroundColor = 'transparent';
+
+            const titleInput = document.createElement('input');
+            titleInput.type = 'text';
+            titleInput.value = note.title;
+            titleInput.disabled = true;
+            titleInput.className = 'title-input';
+            titleInput.style.backgroundColor = 'white';
+
+            const noteTextArea = document.createElement('textarea');
+            noteTextArea.value = note.note;
+            noteTextArea.disabled = true;
+            noteTextArea.className = 'note-textarea';
+            noteTextArea.style.backgroundColor = 'white';
+
+            const dropdownButton = document.createElement('button');
+            dropdownButton.className = 'dropdown-button';
+            const dropdownIcon = document.createElement('img');
+            dropdownIcon.src = 'dropdown.png';
+            dropdownIcon.alt = 'Dropdown';
+            dropdownButton.appendChild(dropdownIcon);
+
+            const dropdownContent = document.createElement('div');
+            dropdownContent.className = 'dropdown-content';
+            dropdownContent.style.display = 'none';
+
+            const trashButton = document.createElement('button');
+            trashButton.className = 'dropdown-item';
+            const trashIcon = document.createElement('img');
+            trashIcon.src = 'trash.png';
+            trashIcon.alt = 'Trash';
+            trashButton.appendChild(trashIcon);
+            dropdownContent.appendChild(trashButton);
+
+            //add event listener to dropdown button
+            dropdownButton.addEventListener('click', () => {
+                if (dropdownContent.style.display === 'none') {
+                dropdownContent.style.display = 'block';
+                dropdownContent.classList.add('show');
+                dropdownContent.classList.remove('hide');
+                dropdownIcon.src = 'dropdown2.png';
+                } else {
+                dropdownContent.style.display = 'none';
+                dropdownContent.classList.add('hide');
+                dropdownContent.classList.remove('show');
+                dropdownIcon.src = 'dropdown.png';
+                }
+            });
+
+            //add event listener to trash button
+            trashButton.addEventListener('click', () => {
+                //remove the note from local storage
+                notes.splice(index, 1);
+                localStorage.setItem('notes', JSON.stringify(notes));
+
+                //remove the note container from the DOM
+                noteContainer.remove();
+            });
+
+            noteContainer.appendChild(titleInput);
+            noteContainer.appendChild(noteTextArea);
+            noteContainer.appendChild(dropdownButton);
+            noteContainer.appendChild(dropdownContent);
+
+            savedNotesList.appendChild(noteContainer);
+            });
+            </script>
+            </main>
             </div>
             <footer>
                 <p>&copy; My Note Taking Website</p>

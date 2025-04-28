@@ -1,40 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Note Taking Website</title>
-            <link rel="stylesheet" href="styles.css">
-        </head>
-        <body>
-            <!--Background Image-->
-            <div class="bgImage">
-                <img src="webBg.jpg">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title>Note Taking Website</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <!--Background Image-->
+        <div class="bg-wrapper"></div>
+        <div class="bgImage" style="background-image: url('webBg.jpg'); background-attachment: fixed;"></div>
+        
+        <header>
+            <div class="hamburger-menu">
+                <div class="hamburger-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
-            <header>
-                <nav>     <!--navbar-->
-                    <ul>
-                        <li><a href="Website1.html">Home</a></li>
-                        <li><a style="margin-left: 5ch;" href="saved_notes.html">Notes</a></li>
-                        <li><a style="margin-left: 5ch;" href="About.html">About</a></li>
-                        <li><a style="margin-left: 5ch;" href="#contact">Contact</a></li>
-                    </ul>
-                </nav>
-            </header>
-            <div  class="body_content">
-                <main>
-                    <h1 id="welcome_Note">Welcome to My Post it  Website</h1>
-                    <section id="home">
-                        <button class="btn" onclick="createNote()">Create Note</button>
-                        <input type="color" id="color-picker">
-                        <button onclick="applyFontColor()" id="apply-color">Apply Font Color</button>
-                        <div id="notesList"></div><!--created notes-->
-                    </section>
-                </main>
-            </div>
-            <script src="script.js"></script>
-            <footer>
-                <p>&copy;JustPost</p> <!-- copyright icon-->
-            </footer>
-        </body>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="Website1.html" class="active">Home</a></li>
+                    <li><a href="saved_notes.html">Notes</a></li>
+                    <li><a href="About.html">About</a></li>
+                    <li><a href="Contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="body_content">
+            <main>
+                <h1 id="welcome_Note">Welcome to My Post it Website</h1>
+                
+                <section id="home" class="content-section">
+                    <button class="btn" onclick="createNote()">Create Note</button>
+                    
+                    <div class="dropdown-wrapper">
+                        <button class="dropdown-button" style="display: none;">
+                            <img src="dropDown.png" alt="Dropdown" style="display: none;">
+                        </button>
+                        <div class="dropdown-content"></div>
+                    </div>
+
+                    <div id="notesList">
+                        <div class="note-containers"></div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <div class="masking-container">
+            <h1 class="masked-text">POST IT!</h1>
+        </div>
+
+        <div class="dropping-texts">
+            <div>Rant</div>
+            <div>Study</div>
+            <div>Work</div>
+            <div>Reflect!</div>
+        </div>
+
+        <footer>
+            <p>&copy; JustPost</p>
+        </footer>
+
+        <script src="script.js"></script>
+        <script src="mobile-nav.js"></script>
+    </body>
 </html>
