@@ -186,4 +186,81 @@ header {
   }
 }
 
+/*For mobile screen navbar*/
+/*Responsive adjustments*/
+@media only screen and (max-width: 768px) {
+  .body_content {
+      padding: 1rem;
+  }
+  
+  main h1 {
+      font-size: 1.8rem;
+      text-align: center;
+      width: 100%;
+      margin-left: 0;
+  }
+  
+  nav ul {
+      flex-direction: column;
+      align-items: center;
+  }
+  
+  nav ul li {
+      margin: 0.5rem 0;
+  }
+
+  .hamburger-menu {
+      display: block;
+      padding: 10px;
+      margin: -10px;
+      z-index: 1001;
+  }
+
+  .hamburger-icon {
+      width: 24px;
+      height: 18px;
+  }
+
+  .hamburger-icon span {
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 0.3s ease;
+      background-color: white;
+  }
+
+  .hamburger-icon.active span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+  }
+
+  .hamburger-icon.active span:nth-child(2) {
+      opacity: 0;
+      transform: translateX(-10px);
+  }
+
+  .hamburger-icon.active span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* Overlay when menu is open */
+  .nav-overlay {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+  }
+
+  .nav-overlay.active {
+      z-index: 1002;
+      display: block;
+      visibility: visible; /* Allow interaction */
+
+  }
+}
+
 

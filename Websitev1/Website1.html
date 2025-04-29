@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -8,10 +8,17 @@
     </head>
     <body>
         <!--Background Image-->
-        <div class="bg-wrapper"></div>
-        <div class="bgImage" style="background-image: url('webBg.jpg'); background-attachment: fixed;"></div>
+        <div class="fixed-background"></div>
         
         <header>
+            <!-- Font Settings Toggle Button -->
+            <div class="font-settings-toggle">
+                <button id="fontSettingsBtn" class="settings-btn">
+                    <img src="setting.png" alt="Settings" class="settings-icon">
+                </button>
+            </div>
+            
+            <!-- Hamburger Menu for Mobile -->
             <div class="hamburger-menu">
                 <div class="hamburger-icon">
                     <span></span>
@@ -19,9 +26,11 @@
                     <span></span>
                 </div>
             </div>
+            
+            <!-- Main Navigation -->
             <nav class="main-nav">
                 <ul>
-                    <li><a href="Website1.html" class="active">Home</a></li>
+                    <li><a style="color: white;" href="Website1.html" class="active">Home</a></li>
                     <li><a href="saved_notes.html">Notes</a></li>
                     <li><a href="About.html">About</a></li>
                     <li><a href="Contact.html">Contact</a></li>
@@ -29,10 +38,37 @@
             </nav>
         </header>
 
+        <!-- Settings Panel -->
+        <div id="settingsPanel" class="settings-panel">
+            <div class="settings-header">
+                <h3>Settings</h3>
+                <button id="closeSettingsBtn" class="close-btn">&times;</button>
+            </div>
+            <div class="settings-content">
+                <div class="setting-group">
+                    <h4>Font Size</h4>
+                    <div class="font-size-controls">
+                        <button id="decreaseFontBtn" class="font-btn">A-</button>
+                        <span id="fontSizeDisplay">Medium</span>
+                        <button id="increaseFontBtn" class="font-btn">A+</button>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <h4>Theme</h4>
+                    <div class="theme-toggle">
+                        <span>Dark/Light Mode</span>
+                        <label class="switch">
+                            <input type="checkbox" id="themeToggle">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="body_content">
             <main>
-                <h1 id="welcome_Note">Welcome to My Post it Website</h1>
-                
+                <h1 id="welcome_Note">Welcome to My Post it Website</h1>                
                 <section id="home" class="content-section">
                     <button class="btn" onclick="createNote()">Create Note</button>
                     
@@ -67,5 +103,44 @@
 
         <script src="script.js"></script>
         <script src="mobile-nav.js"></script>
+        <script>
+            // Theme toggle functionality
+            document.addEventListener('DOMContentLoaded', function() {
+                const themeToggle = document.getElementById('themeToggle');
+                const html = document.documentElement;
+                
+                // Check for saved theme preference
+                const savedTheme = localStorage.getItem('theme') || 'dark';
+                html.setAttribute('data-theme', savedTheme);
+                themeToggle.checked = savedTheme === 'light';
+                
+                // Theme toggle event listener
+                themeToggle.addEventListener('change', function() {
+                    const newTheme = this.checked ? 'light' : 'dark';
+                    html.setAttribute('data-theme', newTheme);
+                    localStorage.setItem('theme', newTheme);
+                });
+                
+                // Settings panel toggle
+                const settingsBtn = document.getElementById('fontSettingsBtn');
+                const settingsPanel = document.getElementById('settingsPanel');
+                const closeSettingsBtn = document.getElementById('closeSettingsBtn');
+                
+                settingsBtn.addEventListener('click', function() {
+                    settingsPanel.classList.toggle('show');
+                });
+                
+                closeSettingsBtn.addEventListener('click', function() {
+                    settingsPanel.classList.remove('show');
+                });
+                
+                // Close settings when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!settingsPanel.contains(e.target) && !settingsBtn.contains(e.target)) {
+                        settingsPanel.classList.remove('show');
+                    }
+                });
+            });
+        </script>
     </body>
 </html>

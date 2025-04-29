@@ -1,55 +1,153 @@
 <!DOCTYPE html>
-<html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Note Taking Website</title>
-            <link rel="stylesheet" href="styles.css">
-        </head>
-        <body>
-            <!--Background Image-->
-            <div class="bgImage">
-                <img src="webBg.jpg">
+<html lang="en" data-theme="dark">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title>About - Note Taking Website</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <!--Background Image-->
+        <div class="fixed-background"></div>
+        
+        <header>
+            <!-- Font Settings Toggle Button -->
+            <div class="font-settings-toggle">
+                <button id="fontSettingsBtn" class="settings-btn">
+                    <img src="setting.png" alt="Settings" class="settings-icon">
+                </button>
             </div>
-            <header>
-                <nav>     <!--navbar-->
-                    <ul>
-                        <li><a href="Website1.html">Home</a></li>
-                        <li><a style="margin-left: 5ch;" href="saved_notes.html">Notes</a></li>
-                        <li><a style="margin-left: 5ch; background-color: #D0F6FF; color: #363055;" href="About.html">About</a></li>
-                        <li><a style="margin-left: 5ch;" href="Contact.html">Contact</a></li>
-                    </ul>
-                </nav>
-            </header>
-            <div class="body_content">
-                <main>
-                    <section id="home">
-                        <h1>Resources</h1>
-                    </section>
-                    
-                    <div class="resourceContainer">
-                        <section id="notes">
-                            <h2>Attributes</h2>
+            
+            <!-- Hamburger Menu for Mobile -->
+            <div class="hamburger-menu">
+                <div class="hamburger-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            
+            <!-- Main Navigation -->
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="Website1.html">Home</a></li>
+                    <li><a href="saved_notes.html">Notes</a></li>
+                    <li><a href="About.html" class="active">About</a></li>
+                    <li><a href="Contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Settings Panel -->
+        <div id="settingsPanel" class="settings-panel">
+            <div class="settings-header">
+                <h3>Settings</h3>
+                <button id="closeSettingsBtn" class="close-btn">&times;</button>
+            </div>
+            <div class="settings-content">
+                <div class="setting-group">
+                    <h4>Font Size</h4>
+                    <div class="font-size-controls">
+                        <button id="decreaseFontBtn" class="font-btn">A-</button>
+                        <span id="fontSizeDisplay">Medium</span>
+                        <button id="increaseFontBtn" class="font-btn">A+</button>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <h4>Theme</h4>
+                    <div class="theme-toggle">
+                        <span>Dark/Light Mode</span>
+                        <label class="switch">
+                            <input type="checkbox" id="themeToggle">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="body_content">
+            <main>
+                <h1>About</h1>
+                
+                <section class="content-section">
+                    <div class="resource-container">
+                        <h2>Resources & Credits</h2>
+                        <div class="resource-list">
+                            <h3>Icons & Assets</h3>
                             <ul>
                                 <li>
-                                 <a href="https://www.flaticon.com/free-icons/essay" title="essay icons">Essay icons created by RIkas Dzihab - Flaticon</a>
+                                    <a href="https://www.flaticon.com/free-icons/essay" title="Essay icons">Essay icons created by RIkas Dzihab - Flaticon</a>
                                 </li>
                                 <li>
-                                    <a href="https://www.flaticon.com/free-icons/delete" title="delete icons">Delete icons created by bqlqn - Flaticon</a>
+                                    <a href="https://www.flaticon.com/free-icons/delete" title="Delete icons">Delete icons created by bqlqn - Flaticon</a>
                                 </li>
                                 <li>
-                                    <a href="https://www.flaticon.com/free-icons/add-image" title="add image icons">Add image icons created by Miftakhul Rizky - Flaticon</a>
+                                    <a href="https://www.flaticon.com/free-icons/add-image" title="Add image icons">Add image icons created by Miftakhul Rizky - Flaticon</a>
                                 </li>
                             </ul>
-                        </section>
+                        </div>
+                        
+                        <div class="about-description">
+                            <h3>About This Website</h3>
+                            <p>This note-taking website allows you to create, save, and manage your notes with ease. Features include:</p>
+                            <ul>
+                                <li>Create and edit notes with rich text formatting</li>
+                                <li>Add images to your notes</li>
+                                <li>Save notes for later access</li>
+                                <li>Dark and light theme options</li>
+                                <li>Responsive design for all devices</li>
+                            </ul>
+                        </div>
                     </div>
-                </main>
-    
+                </section>
+            </main>
+        </div>
+
+        <footer>
+            <p>&copy; JustPost</p>
+        </footer>
+
+        <script src="script.js"></script>
+        <script src="mobile-nav.js"></script>
+        <script>
+            // Theme toggle functionality
+            document.addEventListener('DOMContentLoaded', function() {
+                const themeToggle = document.getElementById('themeToggle');
+                const html = document.documentElement;
                 
-                <script src="script.js"></script>
-            </div>
-            <footer>
-                <p>&copy; My Note Taking Website</p>     <!-- "&copy" (copyright icon)-->
-            </footer>
-        </body>
+                // Check for saved theme preference
+                const savedTheme = localStorage.getItem('theme') || 'dark';
+                html.setAttribute('data-theme', savedTheme);
+                themeToggle.checked = savedTheme === 'light';
+                
+                // Theme toggle event listener
+                themeToggle.addEventListener('change', function() {
+                    const newTheme = this.checked ? 'light' : 'dark';
+                    html.setAttribute('data-theme', newTheme);
+                    localStorage.setItem('theme', newTheme);
+                });
+                
+                // Settings panel toggle
+                const settingsBtn = document.getElementById('fontSettingsBtn');
+                const settingsPanel = document.getElementById('settingsPanel');
+                const closeSettingsBtn = document.getElementById('closeSettingsBtn');
+                
+                settingsBtn.addEventListener('click', function() {
+                    settingsPanel.classList.toggle('show');
+                });
+                
+                closeSettingsBtn.addEventListener('click', function() {
+                    settingsPanel.classList.remove('show');
+                });
+                
+                // Close settings when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!settingsPanel.contains(e.target) && !settingsBtn.contains(e.target)) {
+                        settingsPanel.classList.remove('show');
+                    }
+                });
+            });
+        </script>
+    </body>
 </html>
