@@ -2,7 +2,9 @@
 <html lang="en" data-theme="dark">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="theme-color" content="#2d1a8b">
         <title>Note Taking Website</title>
         <link rel="stylesheet" href="styles.css">
     </head>
@@ -30,7 +32,7 @@
             <!-- Main Navigation -->
             <nav class="main-nav">
                 <ul>
-                    <li><a style="color: white;" href="Website1.html" class="active">Home</a></li>
+                    <li><a href="Website1.html" class="active">Home</a></li>
                     <li><a href="saved_notes.html">Notes</a></li>
                     <li><a href="About.html">About</a></li>
                     <li><a href="Contact.html">Contact</a></li>
@@ -68,8 +70,8 @@
 
         <div class="body_content">
             <main>
-                <h1 id="welcome_Note">Welcome to My Post it Website</h1>                
-                <section id="home" class="content-section">
+                <h1>Welcome to My Post it Website</h1>                
+                <section class="content-section">
                     <button class="btn" onclick="createNote()">Create Note</button>
                     
                     <div class="dropdown-wrapper">
@@ -103,8 +105,8 @@
 
         <script src="script.js"></script>
         <script src="mobile-nav.js"></script>
+        <script src="font-settings.js"></script>
         <script>
-            // Theme toggle functionality
             document.addEventListener('DOMContentLoaded', function() {
                 const themeToggle = document.getElementById('themeToggle');
                 const html = document.documentElement;

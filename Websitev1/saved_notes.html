@@ -62,8 +62,7 @@
     </head>
     <body>
         <!--Background Image-->
-        <div class="bg-wrapper"></div>
-        <div class="bgImage" style="background-image: url('webBg.jpg'); background-attachment: fixed;"></div>
+        <div class="fixed-background"></div>
         
         <header>
             <!-- Font Settings Toggle Button -->
@@ -93,115 +92,56 @@
             </nav>
         </header>
 
-        <!-- Settings Panel -->
+        <!-- Settings Panel (Consistent with Website1.html) -->
         <div id="settingsPanel" class="settings-panel">
-            <div class="settings-header">
-                <h3>Settings</h3>
-                <button id="closeSettingsBtn" class="close-btn">&times;</button>
-            </div>
-            <div class="settings-content">
-                <div class="setting-group">
-                    <h4>Font Size</h4>
-                    <div class="font-size-controls">
-                        <button id="decreaseFontBtn" class="font-btn">A-</button>
-                        <span id="fontSizeDisplay">Medium</span>
-                        <button id="increaseFontBtn" class="font-btn">A+</button>
-                    </div>
-                </div>
-                <div class="setting-group">
-                    <h4>Theme</h4>
-                    <div class="theme-toggle">
-                        <span>Dark Mode</span>
-                        <label class="switch">
-                            <input type="checkbox" id="themeToggle">
-                            <span class="slider round"></span>
-                        </label>
-                    </div>
-                </div>
-            </div>
+             <!-- Using the more detailed panel structure from Website1.html for consistency -->
+             <div class="settings-header">
+                 <h3>Settings</h3>
+                 <button id="closeSettingsBtn" class="close-btn">&times;</button>
+             </div>
+             <div class="settings-content">
+                 <div class="setting-group">
+                     <h4>Font Size</h4>
+                     <div class="font-size-controls">
+                         <button id="decreaseFontBtn" class="font-btn">A-</button>
+                         <span id="fontSizeDisplay">Medium</span> <!-- JS will update this -->
+                         <button id="increaseFontBtn" class="font-btn">A+</button>
+                     </div>
+                 </div>
+                 <div class="setting-group">
+                     <h4>Theme</h4>
+                     <div class="theme-toggle">
+                         <span>Dark/Light Mode</span>
+                         <label class="switch">
+                             <input type="checkbox" id="themeToggle">
+                             <span class="slider round"></span>
+                         </label>
+                     </div>
+                 </div>
+             </div>
         </div>
 
+        <!-- Main Content Wrapper -->
         <div class="body_content">
             <main>
-                <h1>Your Saved Notes</h1>
-                
-                <section id="saved-notes" class="content-section">
-                    <div id="savedNotesList" class="note-containers">
-                        <!-- Saved notes will be loaded here -->
-                    </div>
-                </section>
+                <!-- Container where script_Notes.js will load notes -->
+                <div id="savedNotesList">
+                    <!-- Notes will be loaded here by JavaScript -->
+                </div>
             </main>
         </div>
 
         <footer>
             <p>&copy; JustPost</p>
         </footer>
-
-        <script src="script.js"></script>
+        <!-- Load the specific script for this page -->
+        <script src="script_Notes.js"></script> 
+        <!-- Load mobile navigation script -->
         <script src="mobile-nav.js"></script>
+        <!-- Theme toggle functionality -->
+        <script src="font-settings.js"></script>
         <script>
-            // Load saved notes when the page loads
             document.addEventListener('DOMContentLoaded', function() {
-                loadSavedNotes();
-                
-                // Initialize image focus elements
-                STATE = {
-                    imageFocusElements: {
-                        overlay: document.createElement('div'),
-                        focusedContainer: document.createElement('div'),
-                        focusedImg: document.createElement('img'),
-                        currentImage: null
-                    }
-                };
-                
-                // Set up the overlay
-                STATE.imageFocusElements.overlay.className = 'image-overlay';
-                STATE.imageFocusElements.overlay.style.display = 'none';
-                STATE.imageFocusElements.overlay.style.position = 'fixed';
-                STATE.imageFocusElements.overlay.style.top = '0';
-                STATE.imageFocusElements.overlay.style.left = '0';
-                STATE.imageFocusElements.overlay.style.width = '100%';
-                STATE.imageFocusElements.overlay.style.height = '100%';
-                STATE.imageFocusElements.overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
-                STATE.imageFocusElements.overlay.style.zIndex = '1000';
-                STATE.imageFocusElements.overlay.style.display = 'flex';
-                STATE.imageFocusElements.overlay.style.justifyContent = 'center';
-                STATE.imageFocusElements.overlay.style.alignItems = 'center';
-                STATE.imageFocusElements.overlay.style.cursor = 'pointer';
-                
-                // Set up the focused container
-                STATE.imageFocusElements.focusedContainer.className = 'focused-image-container';
-                STATE.imageFocusElements.focusedContainer.style.display = 'none';
-                STATE.imageFocusElements.focusedContainer.style.position = 'fixed';
-                STATE.imageFocusElements.focusedContainer.style.top = '50%';
-                STATE.imageFocusElements.focusedContainer.style.left = '50%';
-                STATE.imageFocusElements.focusedContainer.style.transform = 'translate(-50%, -50%)';
-                STATE.imageFocusElements.focusedContainer.style.zIndex = '1001';
-                STATE.imageFocusElements.focusedContainer.style.maxWidth = '90%';
-                STATE.imageFocusElements.focusedContainer.style.maxHeight = '90%';
-                
-                // Set up the focused image
-                STATE.imageFocusElements.focusedImg.className = 'focused-image';
-                STATE.imageFocusElements.focusedImg.style.maxWidth = '100%';
-                STATE.imageFocusElements.focusedImg.style.maxHeight = '90vh';
-                STATE.imageFocusElements.focusedImg.style.objectFit = 'contain';
-                
-                // Add the focused image to the container
-                STATE.imageFocusElements.focusedContainer.appendChild(STATE.imageFocusElements.focusedImg);
-                
-                // Add the container to the overlay
-                STATE.imageFocusElements.overlay.appendChild(STATE.imageFocusElements.focusedContainer);
-                
-                // Add the overlay to the body
-                document.body.appendChild(STATE.imageFocusElements.overlay);
-                
-                // Add click event to close the overlay
-                STATE.imageFocusElements.overlay.addEventListener('click', function() {
-                    STATE.imageFocusElements.overlay.style.display = 'none';
-                    STATE.imageFocusElements.focusedContainer.style.display = 'none';
-                });
-                
-                // Theme toggle functionality
                 const themeToggle = document.getElementById('themeToggle');
                 const html = document.documentElement;
                 
@@ -236,291 +176,6 @@
                         settingsPanel.classList.remove('show');
                     }
                 });
-            });
-
-            function loadSavedNotes() {
-                const savedNotesList = document.getElementById('savedNotesList');
-                const notes = JSON.parse(localStorage.getItem('savedNotes')) || [];
-                
-                if (notes.length === 0) {
-                    savedNotesList.innerHTML = '<p style="color: var(--text-color); text-align: center; font-size: 1.2rem;">No saved notes yet. Create some notes on the home page!</p>';
-                    return;
-                }
-                
-                notes.forEach((note, index) => {
-                    const noteContainer = document.createElement('div');
-                    noteContainer.className = 'note-container';
-                    noteContainer.draggable = true;
-                    
-                    // Create title bar
-                    const titleBar = document.createElement('div');
-                    titleBar.className = 'title-bar';
-                    titleBar.style.display = 'flex';
-                    titleBar.style.alignItems = 'center';
-                    titleBar.style.justifyContent = 'space-between';
-                    titleBar.style.width = '100%';
-                    titleBar.style.padding = '5px';
-                    titleBar.style.position = 'relative';
-                    
-                    // Title input (editable)
-                    const titleInput = document.createElement('input');
-                    titleInput.type = 'text';
-                    titleInput.value = note.title || 'Untitled';
-                    titleInput.className = 'title-input';
-                    titleInput.readOnly = false;
-                    titleInput.style.flex = '1';
-                    titleInput.style.marginRight = '10px';
-                    
-                    // Dropdown button
-                    const dropdownButton = document.createElement('button');
-                    dropdownButton.className = 'dropdown-button';
-                    dropdownButton.setAttribute('data-dropdown-id', `saved-dropdown-${index}`);
-                    dropdownButton.style.position = 'absolute';
-                    dropdownButton.style.right = '5px';
-                    dropdownButton.style.top = '50%';
-                    dropdownButton.style.transform = 'translateY(-50%)';
-                    
-                    const dropdownIcon = document.createElement('img');
-                    dropdownIcon.src = 'dropDown.png';
-                    dropdownIcon.alt = 'Menu';
-                    dropdownButton.appendChild(dropdownIcon);
-                    
-                    // Add title input and dropdown button to title bar
-                    titleBar.appendChild(titleInput);
-                    titleBar.appendChild(dropdownButton);
-                    
-                    // Note area (editable)
-                    const noteTextArea = document.createElement('div');
-                    noteTextArea.className = 'note-textarea';
-                    noteTextArea.contentEditable = 'true';
-                    noteTextArea.textContent = note.note || '';
-                    
-                    // Create image gallery container for saved images
-                    const imageGalleryContainer = document.createElement('div');
-                    imageGalleryContainer.className = 'image-gallery-container';
-                    imageGalleryContainer.style.display = 'flex';
-                    imageGalleryContainer.style.flexDirection = 'row';
-                    imageGalleryContainer.style.flexWrap = 'nowrap';
-                    imageGalleryContainer.style.overflowX = 'auto';
-                    imageGalleryContainer.style.overflowY = 'hidden';
-                    imageGalleryContainer.style.width = '100%';
-                    imageGalleryContainer.style.maxWidth = '100%';
-                    imageGalleryContainer.style.padding = '15px';
-                    imageGalleryContainer.style.margin = '15px 0';
-                    imageGalleryContainer.style.boxSizing = 'border-box';
-                    
-                    // If there's an image, add it to the gallery
-                    if (note.image) {
-                        const img = document.createElement('img');
-                        img.src = note.image;
-                        img.alt = 'Attached image';
-                        img.style.maxWidth = '200px';
-                        img.style.height = 'auto';
-                        img.style.margin = '0 10px';
-                        img.style.borderRadius = '8px';
-                        img.style.cursor = 'pointer';
-                        
-                        // Add click handler for image focus
-                        img.addEventListener('click', function() {
-                            // Set the focused image source
-                            STATE.imageFocusElements.focusedImg.src = this.src;
-                            
-                            // Show the overlay and focused image
-                            STATE.imageFocusElements.overlay.style.display = 'block';
-                            STATE.imageFocusElements.focusedContainer.style.display = 'block';
-                            
-                            // Store reference to the clicked image
-                            STATE.imageFocusElements.currentImage = this;
-                        });
-                        
-                        imageGalleryContainer.appendChild(img);
-                    }
-                    
-                    // Dropdown content
-                    const dropdownContent = document.createElement('div');
-                    dropdownContent.className = 'dropdown-content';
-                    dropdownContent.id = `saved-dropdown-${index}`;
-                    dropdownContent.style.display = 'none';
-                    dropdownContent.style.position = 'absolute';
-                    dropdownContent.style.zIndex = '1000';
-                    dropdownContent.style.minWidth = '120px';
-                    dropdownContent.style.maxWidth = '150px';
-                    dropdownContent.style.width = 'auto';
-                    titleBar.appendChild(dropdownContent);
-                    
-                    // Create dropdown items
-                    const items = [
-                        { icon: 'edit.png', alt: 'Edit', text: 'Edit on Main Page', action: () => editOnMainPage(index) },
-                        { icon: 'save.png', alt: 'Save', text: 'Save Changes', action: () => saveChanges(index, titleInput, noteTextArea) },
-                        { icon: 'trash.png', alt: 'Delete', text: 'Delete', action: () => deleteSavedNote(index) }
-                    ];
-                    
-                    items.forEach(item => {
-                        const button = document.createElement('button');
-                        button.className = 'dropdown-item';
-                        
-                        // Create icon container
-                        const iconContainer = document.createElement('div');
-                        iconContainer.style.display = 'flex';
-                        iconContainer.style.alignItems = 'center';
-                        iconContainer.style.justifyContent = 'center';
-                        iconContainer.style.width = '24px';
-                        iconContainer.style.height = '24px';
-                        iconContainer.style.marginRight = '8px';
-                        
-                        const icon = document.createElement('img');
-                        icon.src = item.icon;
-                        icon.alt = item.alt;
-                        icon.style.width = '16px';
-                        icon.style.height = '16px';
-                        icon.style.position = 'static';
-                        icon.style.margin = '0';
-                        iconContainer.appendChild(icon);
-                        
-                        const textSpan = document.createElement('span');
-                        textSpan.textContent = item.text;
-                        textSpan.style.flex = '1';
-                        
-                        // Create content container for proper alignment
-                        const contentContainer = document.createElement('div');
-                        contentContainer.style.display = 'flex';
-                        contentContainer.style.alignItems = 'center';
-                        contentContainer.style.width = '100%';
-                        contentContainer.style.gap = '8px';
-                        
-                        contentContainer.appendChild(iconContainer);
-                        contentContainer.appendChild(textSpan);
-                        button.appendChild(contentContainer);
-                        
-                        button.addEventListener('click', () => {
-                            item.action();
-                            closeAllDropdowns();
-                        });
-                        dropdownContent.appendChild(button);
-                    });
-                    
-                    // Dropdown toggle
-                    dropdownButton.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        const dropdownId = this.getAttribute('data-dropdown-id');
-                        const dropdownContent = document.getElementById(dropdownId);
-                        
-                        if (!dropdownContent) {
-                            console.error('Dropdown content not found for ID:', dropdownId);
-                            return;
-                        }
-                        
-                        const isCurrentlyShown = dropdownContent.classList.contains('show');
-                        
-                        // Close all other dropdowns first
-                        closeAllDropdowns();
-                        
-                        if (!isCurrentlyShown) {
-                            // Position the dropdown content relative to the button
-                            const buttonRect = this.getBoundingClientRect();
-                            const isMobile = window.innerWidth <= 768;
-                            
-                            if (isMobile) {
-                                dropdownContent.style.position = 'absolute';
-                                dropdownContent.style.top = '0';
-                                dropdownContent.style.right = '0';
-                                dropdownContent.style.width = '120px';
-                            } else {
-                                dropdownContent.style.position = 'absolute';
-                                dropdownContent.style.top = '100%';
-                                dropdownContent.style.right = '0';
-                                dropdownContent.style.width = '150px';
-                            }
-                            
-                            dropdownContent.style.opacity = '1';
-                            dropdownContent.style.visibility = 'visible';
-                            dropdownContent.style.display = 'block';
-                            dropdownContent.classList.add('show');
-                            dropdownIcon.src = 'dropDown2.png';
-                            dropdownIcon.alt = 'Close Menu';
-                        } else {
-                            dropdownContent.classList.remove('show');
-                            dropdownContent.style.display = 'none';
-                            dropdownContent.style.opacity = '0';
-                            dropdownContent.style.visibility = 'hidden';
-                            dropdownIcon.src = 'dropDown.png';
-                            dropdownIcon.alt = 'Menu';
-                        }
-                    });
-                    
-                    // Prevent closing when clicking inside dropdown
-                    dropdownContent.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                    });
-                    
-                    // Append elements
-                    noteContainer.appendChild(titleBar);
-                    if (note.image) {
-                        noteContainer.appendChild(imageGalleryContainer);
-                    }
-                    noteContainer.appendChild(noteTextArea);
-                    savedNotesList.appendChild(noteContainer);
-                    
-                    // Add animation for new note
-                    setTimeout(() => {
-                        noteContainer.style.opacity = '1';
-                        noteContainer.style.transform = 'translateY(0)';
-                    }, 10);
-                });
-                
-                // Update the background to cover the content
-                updateBackground();
-            }
-            
-            function deleteSavedNote(index) {
-                const notes = JSON.parse(localStorage.getItem('savedNotes')) || [];
-                notes.splice(index, 1);
-                localStorage.setItem('savedNotes', JSON.stringify(notes));
-                
-                // Reload the notes
-                loadSavedNotes();
-            }
-            
-            function saveChanges(index, titleInput, noteTextArea) {
-                const notes = JSON.parse(localStorage.getItem('savedNotes')) || [];
-                const note = notes[index];
-                
-                note.title = titleInput.value;
-                note.note = noteTextArea.textContent;
-                
-                localStorage.setItem('savedNotes', JSON.stringify(notes));
-                alert('Changes saved successfully!');
-            }
-            
-
-            function editOnMainPage(index) {
-            // Get the saved notes from localStorage
-            const notes = JSON.parse(localStorage.getItem('savedNotes')) || [];
-
-            // Check if the index is valid
-            if (index < 0 || index >= notes.length) {
-                console.error('Invalid index:', index);
-                return;
-            }
-
-            // Get the note to edit
-            const note = notes[index];
-
-            // Store the note to be edited in localStorage
-            localStorage.setItem('noteToEdit', JSON.stringify({
-                index: index,
-                note: note
-            }));
-
-            // Redirect to the main page
-            window.location.href = 'Website1.html';
-            }
-            
-            // Close dropdowns when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('.dropdown-button') && !e.target.closest('.dropdown-content')) {
-                    closeAllDropdowns();
-                }
             });
         </script>
     </body>

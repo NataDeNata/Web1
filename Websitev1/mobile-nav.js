@@ -65,9 +65,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    /**
-     * Dropdown functionality for mobile
-     */
+    
+      //Dropdown functionality for mobile
+
     const dropdownButtons = document.querySelectorAll('.dropdown-button');
     dropdownButtons.forEach(button => {
         button.addEventListener('click', (e) => {

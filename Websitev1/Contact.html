@@ -5,6 +5,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <title>About - Note Taking Website</title>
         <link rel="stylesheet" href="styles.css">
+        <!-- Add EmailJS script -->
+        <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+        <script>
+            (function() {
+                // Initialize EmailJS with your public key
+                emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your actual public key
+            })();
+        </script>
 
 		<style>
 		.contact-form {
@@ -140,7 +148,7 @@
                 <section class="content-section">
 					<div class="contact-form">
 						<h2>Get in Touch</h2>
-						<form>
+						<form id="contactForm">
 							<label for="name">Name:</label>
 							<input type="text" id="name" name="name" required>
 							<br>
@@ -163,81 +171,155 @@
 
         <script src="script.js"></script>
         <script src="mobile-nav.js"></script>
+        <script src="font-settings.js"></script>
         <script>
-           // Theme toggle functionality
-document.addEventListener('DOMContentLoaded', function() {
-  const themeToggle = document.getElementById('themeToggle');
-  const html = document.documentElement;
+            document.addEventListener('DOMContentLoaded', function() {
+                const themeToggle = document.getElementById('themeToggle');
+                const html = document.documentElement;
+                
+                // Check for saved theme preference
+                const savedTheme = localStorage.getItem('theme') || 'dark';
+                html.setAttribute('data-theme', savedTheme);
+                themeToggle.checked = savedTheme === 'light';
+                
+                // Theme toggle event listener
+                themeToggle.addEventListener('change', function() {
+                    const newTheme = this.checked ? 'light' : 'dark';
+                    html.setAttribute('data-theme', newTheme);
+                    localStorage.setItem('theme', newTheme);
+                });
+                
+                // Settings panel toggle
+                const settingsBtn = document.getElementById('fontSettingsBtn');
+                const settingsPanel = document.getElementById('settingsPanel');
+                const closeSettingsBtn = document.getElementById('closeSettingsBtn');
+                
+                settingsBtn.addEventListener('click', function() {
+                    settingsPanel.classList.toggle('show');
+                });
+                
+                closeSettingsBtn.addEventListener('click', function() {
+                    settingsPanel.classList.remove('show');
+                });
+                
+                // Close settings when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!settingsPanel.contains(e.target) && !settingsBtn.contains(e.target)) {
+                        settingsPanel.classList.remove('show');
+                    }
+                });
+            });
 
-  // Check for saved theme preference
-  const savedTheme = localStorage.getItem('theme') || 'dark';
-  html.setAttribute('data-theme', savedTheme);
-  themeToggle.checked = savedTheme === 'light';
+            // Form submission notification
+            const form = document.getElementsByClassName("contact-form");
 
-  // Theme toggle event listener
-  themeToggle.addEventListener('change', function() {
-    const newTheme = this.checked ? 'light' : 'dark';
-    html.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-  });
+            // Add an event listener to the form's submit event
+            form.addEventListener("submit", (e) => {
+                // Prevent the default form submission behavior
+                e.preventDefault();
 
-  // Settings panel toggle
-  const settingsBtn = document.getElementById('fontSettingsBtn');
-  const settingsPanel = document.getElementById('settingsPanel');
-  const closeSettingsBtn = document.getElementById('closeSettingsBtn');
+                // Simulate sending the form data (replace with actual API call or form submission logic)
+                setTimeout(() => {
+                    // Display a notification that the message has been sent successfully
+                    const notification = document.createElement("div");
+                    notification.textContent = "Message sent successfully!";
+                    notification.style.position = "fixed";
+                    notification.style.top = "50%";
+                    notification.style.left = "50%";
+                    notification.style.transform = "translate(-50%, -50%)";
+                    notification.style.backgroundColor = "#4CAF50";
+                    notification.style.color = "#fff";
+                    notification.style.padding = "10px";
+                    notification.style.borderRadius = "5px";
+                    notification.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.2)";
+                    notification.style.zIndex = "1000"; 
+                    document.body.appendChild(notification);
 
-  settingsBtn.addEventListener('click', function() {
-    settingsPanel.classList.toggle('show');
-  });
+                    // Remove the notification after 3 seconds
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 3000);
 
-  closeSettingsBtn.addEventListener('click', function() {
-    settingsPanel.classList.remove('show');
-  });
+                    // Refresh the page after 5 seconds
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 5000);
+                }, 1000);
+            });
 
-  // Close settings when clicking outside
-  document.addEventListener('click', function(e) {
-    if (!settingsPanel.contains(e.target) && !settingsBtn.contains(e.target)) {
-      settingsPanel.classList.remove('show');
-    }
-  });
+            // Contact form submission
+            const contactForm = document.getElementById('contactForm');
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
 
- // Form submission notification
-const form = document.getElementsByClassName("contact-form");
+                // Show loading state
+                const submitButton = contactForm.querySelector('button[type="submit"]');
+                const originalButtonText = submitButton.textContent;
+                submitButton.textContent = 'Sending...';
+                submitButton.disabled = true;
 
-// Add an event listener to the form's submit event
-form.addEventListener("submit", (e) => {
-  // Prevent the default form submission behavior
-  e.preventDefault();
+                // Get form data
+                const formData = {
+                    to_email: 'ynatz.ynatz@gmail.com',
+                    from_name: document.getElementById('name').value,
+                    from_email: document.getElementById('email').value,
+                    message: document.getElementById('message').value,
+                    reply_to: document.getElementById('email').value
+                };
 
-  // Simulate sending the form data (replace with actual API call or form submission logic)
-  setTimeout(() => {
-    // Display a notification that the message has been sent successfully
-    const notification = document.createElement("div");
-    notification.textContent = "Message sent successfully!";
-    notification.style.position = "fixed";
-    notification.style.top = "50%";
-    notification.style.left = "50%";
-    notification.style.transform = "translate(-50%, -50%)";
-    notification.style.backgroundColor = "#4CAF50";
-    notification.style.color = "#fff";
-    notification.style.padding = "10px";
-    notification.style.borderRadius = "5px";
-    notification.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.2)";
-	notification.style.zIndex = "1000"; 
-    document.body.appendChild(notification);
+                // Send email using EmailJS
+                emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', formData)
+                    .then(function() {
+                        // Show success notification
+                        showNotification('Message sent successfully! We will get back to you soon.', 'success');
+                        
+                        // Reset form
+                        contactForm.reset();
+                        
+                        // Reset button state
+                        submitButton.textContent = originalButtonText;
+                        submitButton.disabled = false;
 
-    // Remove the notification after 3 seconds
-    setTimeout(() => {
-      notification.remove();
-    }, 3000);
+                        // Wait for 3 seconds before refreshing
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 3000);
+                    })
+                    .catch(function(error) {
+                        // Show error notification
+                        showNotification('Failed to send message. Please try again.', 'error');
+                        
+                        // Reset button state
+                        submitButton.textContent = originalButtonText;
+                        submitButton.disabled = false;
+                        
+                        console.error('EmailJS error:', error);
+                    });
+            });
 
-    // Refresh the page after 5 seconds
-    setTimeout(() => {
-      window.location.reload();
-    }, 5000);
-  }, 1000);
-});
-});
-		</script>
+            // Notification function
+            function showNotification(message, type) {
+                // Remove any existing notifications
+                const existingNotifications = document.querySelectorAll('.notification');
+                existingNotifications.forEach(notification => notification.remove());
+
+                // Create new notification
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+                notification.textContent = message;
+                document.body.appendChild(notification);
+
+                // Add animation class
+                notification.style.animation = 'slideIn 0.3s ease-out';
+
+                // Remove notification after 5 seconds
+                setTimeout(() => {
+                    notification.style.animation = 'slideOut 0.3s ease-out';
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 300);
+                }, 5000);
+            }
+        </script>
     </body>
 </html>
